@@ -119,6 +119,46 @@
             transform: scale(1.02);
         }
 
+        /* IMAGE GALLERY */
+        .gallery-main {
+            width: 100%;
+            height: auto;
+            border: 2px dotted #2980b9;
+            border-radius: 10px;
+            padding: 8px;
+            background-color: #f9f2e2;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+            cursor: zoom-in;
+            transition: opacity 0.3s ease;
+        }
+
+        .gallery-thumbnails {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .gallery-thumb {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border: 2px solid #ccc;
+            border-radius: 6px;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: all 0.2s ease;
+        }
+        .gallery-thumb:hover {
+            opacity: 1;
+            border-color: #3498db;
+        }
+        .gallery-thumb.active {
+            opacity: 1;
+            border-color: #3498db;
+            box-shadow: 0 0 0 2px #f9f2e2, 0 0 0 4px #3498db;
+        }
+
         .status-badge {
             position: absolute;
             top: 15px;
@@ -316,17 +356,6 @@
             font-size: 13px;
         }
 
-        /* PROVENANCE NOTE */
-        .provenance-note {
-            background-color: #f9f2e2;
-            border-left: 4px solid #3498db;
-            padding: 15px;
-            margin: 15px 0;
-            font-size: 12px;
-            font-style: italic;
-            color: #666;
-        }
-
         /* VIDEO EMBED */
         .artwork-video {
             margin-top: 15px;
@@ -350,7 +379,7 @@
             border: none;
         }
 
-        /* ARTWORK WITH VIDEO - 3 column layout */
+        /* ARTWORK WITH VIDEO */
         .artwork-listing.has-video {
             grid-template-columns: 1fr 1.2fr;
             grid-template-rows: auto auto;
@@ -427,6 +456,10 @@
             h1 {
                 font-size: 1.5em;
             }
+            .gallery-thumb {
+                width: 50px;
+                height: 50px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -442,10 +475,14 @@
             .introduction {
                 padding: 15px;
             }
+            .gallery-thumb {
+                width: 45px;
+                height: 45px;
+            }
         }
     </style>
 </head>
-<body>
+<body id="top">
 
 <div class="page-wrapper">
     <div class="page-container">
@@ -455,11 +492,11 @@
         <!-- Navigation -->
         <nav>
             <ul>
+                <li><a href="shop.html" class="active">Shop</a></li>
                 <li><a href="about.html">About</a></li>
                 <li><a href="animations.html">Animations</a></li>
                 <li><a href="intro.html">Living as Data</a></li>
                 <li><a href="unhindered.html">Unhindered AI</a></li>
-                <li><a href="shop.html" class="active">Shop</a></li>
             </ul>
         </nav>
 
@@ -486,8 +523,13 @@
             <!-- AI BIAS -->
             <article class="artwork-listing has-video">
                 <div class="artwork-image-container">
-                    <img src="images/aibias1.jpg" alt="AI Bias concertina book" class="artwork-image">
                     <span class="status-badge available">Available</span>
+                    <img src="images/bias1.jpg" alt="AI Bias concertina book" class="gallery-main" id="bias-main">
+                    <div class="gallery-thumbnails">
+                        <img src="images/bias1.jpg" alt="AI Bias view 1" class="gallery-thumb active" onclick="changeImage('bias-main', this, 'images/bias1.jpg')">
+                        <img src="images/bias2.jpg" alt="AI Bias view 2" class="gallery-thumb" onclick="changeImage('bias-main', this, 'images/bias2.jpg')">
+                        <img src="images/bias3.jpg" alt="AI Bias view 3" class="gallery-thumb" onclick="changeImage('bias-main', this, 'images/bias3.jpg')">
+                    </div>
                 </div>
                 <div class="artwork-details">
                     <h2 class="artwork-title">AI Bias</h2>
@@ -513,8 +555,13 @@
             <!-- AI IMAGE BUILDING -->
             <article class="artwork-listing has-video">
                 <div class="artwork-image-container">
-                    <img src="images/imagebuilding1.jpg" alt="AI Image Building concertina book" class="artwork-image">
                     <span class="status-badge available">Available</span>
+                    <img src="images/imagebuilding1.jpg" alt="AI Image Building concertina book" class="gallery-main" id="imagebuilding-main">
+                    <div class="gallery-thumbnails">
+                        <img src="images/imagebuilding1.jpg" alt="AI Image Building view 1" class="gallery-thumb active" onclick="changeImage('imagebuilding-main', this, 'images/imagebuilding1.jpg')">
+                        <img src="images/imagebuilding2.jpg" alt="AI Image Building view 2" class="gallery-thumb" onclick="changeImage('imagebuilding-main', this, 'images/imagebuilding2.jpg')">
+                        <img src="images/imagebuilding3.jpg" alt="AI Image Building view 3" class="gallery-thumb" onclick="changeImage('imagebuilding-main', this, 'images/imagebuilding3.jpg')">
+                    </div>
                 </div>
                 <div class="artwork-details">
                     <h2 class="artwork-title">AI Image Building</h2>
@@ -540,8 +587,13 @@
             <!-- CLUSTER HANDS -->
             <article class="artwork-listing has-video">
                 <div class="artwork-image-container">
-                    <img src="images/clusterhands1.jpg" alt="Cluster Hands concertina book" class="artwork-image">
                     <span class="status-badge available">Available</span>
+                    <img src="images/cluster dots1.jpg" alt="Cluster Hands concertina book" class="gallery-main" id="cluster-main">
+                    <div class="gallery-thumbnails">
+                        <img src="images/cluster dots1.jpg" alt="Cluster Hands view 1" class="gallery-thumb active" onclick="changeImage('cluster-main', this, 'images/cluster dots1.jpg')">
+                        <img src="images/cluster dots2.jpg" alt="Cluster Hands view 2" class="gallery-thumb" onclick="changeImage('cluster-main', this, 'images/cluster dots2.jpg')">
+                        <img src="images/cluster dots3.jpg" alt="Cluster Hands view 3" class="gallery-thumb" onclick="changeImage('cluster-main', this, 'images/cluster dots3.jpg')">
+                    </div>
                 </div>
                 <div class="artwork-details">
                     <h2 class="artwork-title">Cluster Hands</h2>
@@ -567,8 +619,14 @@
             <!-- VISUAL TRAINING MODEL -->
             <article class="artwork-listing has-video">
                 <div class="artwork-image-container">
-                    <img src="images/visualtraining1.jpg" alt="Visual Training Model concertina book" class="artwork-image">
                     <span class="status-badge available">Available</span>
+                    <img src="images/visual training model 1.jpg" alt="Visual Training Model concertina book" class="gallery-main" id="visual-main">
+                    <div class="gallery-thumbnails">
+                        <img src="images/visual training model 1.jpg" alt="Visual Training Model view 1" class="gallery-thumb active" onclick="changeImage('visual-main', this, 'images/visual training model 1.jpg')">
+                        <img src="images/visual training model 2.jpg" alt="Visual Training Model view 2" class="gallery-thumb" onclick="changeImage('visual-main', this, 'images/visual training model 2.jpg')">
+                        <img src="images/visual training model 3.jpg" alt="Visual Training Model view 3" class="gallery-thumb" onclick="changeImage('visual-main', this, 'images/visual training model 3.jpg')">
+                        <img src="images/visual training model 4.jpg" alt="Visual Training Model view 4" class="gallery-thumb" onclick="changeImage('visual-main', this, 'images/visual training model 4.jpg')">
+                    </div>
                 </div>
                 <div class="artwork-details">
                     <h2 class="artwork-title">Visual Training Model</h2>
@@ -594,8 +652,14 @@
             <!-- RE-ADAPTED -->
             <article class="artwork-listing has-video">
                 <div class="artwork-image-container">
-                    <img src="images/readapted1.jpg" alt="Re-adapted concertina book" class="artwork-image">
                     <span class="status-badge available">Available</span>
+                    <img src="images/RE-ADAPTED 1.jpg" alt="Re-adapted concertina book" class="gallery-main" id="readapted-main">
+                    <div class="gallery-thumbnails">
+                        <img src="images/RE-ADAPTED 1.jpg" alt="Re-adapted view 1" class="gallery-thumb active" onclick="changeImage('readapted-main', this, 'images/RE-ADAPTED 1.jpg')">
+                        <img src="images/RE-ADAPTED 2.jpg" alt="Re-adapted view 2" class="gallery-thumb" onclick="changeImage('readapted-main', this, 'images/RE-ADAPTED 2.jpg')">
+                        <img src="images/RE-ADAPTED 3.jpg" alt="Re-adapted view 3" class="gallery-thumb" onclick="changeImage('readapted-main', this, 'images/RE-ADAPTED 3.jpg')">
+                        <img src="images/RE-ADAPTED 4.jpg" alt="Re-adapted view 4" class="gallery-thumb" onclick="changeImage('readapted-main', this, 'images/RE-ADAPTED 4.jpg')">
+                    </div>
                 </div>
                 <div class="artwork-details">
                     <h2 class="artwork-title">Re-adapted</h2>
@@ -621,7 +685,6 @@
         </div>
 
         <hr class="section-divider">
-      
 
         <!-- PURCHASING INFO -->
         <div class="info-section">
@@ -656,6 +719,20 @@
 
     </div>
 </div>
+
+<script>
+    function changeImage(mainId, thumbElement, newSrc) {
+        // Update main image
+        document.getElementById(mainId).src = newSrc;
+        
+        // Update active state on thumbnails
+        const container = thumbElement.parentElement;
+        container.querySelectorAll('.gallery-thumb').forEach(thumb => {
+            thumb.classList.remove('active');
+        });
+        thumbElement.classList.add('active');
+    }
+</script>
 
 </body>
 </html>
