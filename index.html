@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop | Heidi Stokes</title>
+    
+    <style>
+        * { box-sizing: border-box; }
+        
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 12px;
+            color: #2c3e50;
+            background-image: 
+                linear-gradient(#ccc 1px, transparent 1px),
+                linear-gradient(90deg, #ccc 1px, transparent 1px);
+            background-color: #f9f2e2;
+            background-size: 20px 20px;
+            background-blend-mode: multiply;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .page-wrapper {
+            max-width: 900px;
+            width: 95%;
+            margin: 10px auto;
+            border: 2px dashed #3498db;
+            border-radius: 35px;
+            padding: 10px;
+            background-color: #f9f2e2;
+        }
+
+        .page-container {
+            max-width: 880px;
+            width: 100%;
+            margin: 0 auto;
+            border: 2px solid #2980b9;
+            border-radius: 30px;
+            padding: 20px;
+            background-color: #f9f2e2;
+            position: relative;
+            box-shadow: 0 0 0 8px #f9f2e2, 0 0 0 10px #3498db;
+        }
+
+        .notebook-clip {
+            position: absolute;
+            width: 40px;
+            height: 10px;
+            background: #a0a0a0;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 10;
+        }
+        .clip-left { top: -5px; left: 80px; transform: rotate(2deg); }
+        .clip-right { top: -5px; right: 80px; transform: rotate(-2deg); }
+
+        h1, h2, h3 {
+            border: 2px dotted #2980b9;
+            border-radius: 20px;
+            background-color: #f9f2e2;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 15px;
+            text-align: center;
+            color: #2c3e50;
+        }
+        h1 { font-size: 1.8em; padding: 12px; }
+        h2 { font-size: 1.4em; padding: 8px; margin-top: 30px; border: none; box-shadow: none; text-align: left; }
+        h3 { font-size: 1.1em; padding: 6px; }
+
+        .introduction {
+            background-color: #f5e9c9;
+            border: 2px dotted #2980b9;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+        .introduction p {
+            border: none;
+            background: none;
+            padding: 0;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        .introduction p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* ARTWORK LISTINGS */
+        .artwork-listing {
+            background-color: #f5e9c9;
+            border: 2px dotted #2980b9;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 25px;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 25px;
+            align-items: start;
+        }
+
+        .artwork-image-container {
+            position: relative;
+        }
+
+        .artwork-image {
+            width: 100%;
+            height: auto;
+            border: 2px dotted #2980b9;
+            border-radius: 10px;
+            padding: 8px;
+            background-color: #f9f2e2;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease;
+            cursor: zoom-in;
+        }
+        .artwork-image:hover {
+            transform: scale(1.02);
+        }
+
+        .status-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .status-badge.available {
+            background-color: #27ae60;
+            color: white;
+        }
+        .status-badge.sold {
+            background-color: #7f8c8d;
+            color: white;
+        }
+
+        .artwork-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .artwork-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 5px;
+            border: none;
+            box-shadow: none;
+            text-align: left;
+            padding: 0;
+        }
+
+        .artwork-year {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px dotted #3498db;
+        }
+
+        .artwork-description {
+            font-size: 13px;
+            color: #555;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .artwork-specs {
+            background-color: #f9f2e2;
+            border: 2px dashed #3498db;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .artwork-specs p {
+            border: none;
+            background: none;
+            padding: 0;
+            margin: 0 0 8px 0;
+            font-size: 12px;
+            color: #666;
+        }
+        .artwork-specs p:last-child {
+            margin-bottom: 0;
+        }
+        .spec-label {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .artwork-price {
+            font-size: 1.4em;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .enquire-button {
+            display: inline-block;
+            padding: 12px 25px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        .enquire-button:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4);
+            color: white;
+            text-decoration: none;
+        }
+        .enquire-button.sold {
+            background-color: #bdc3c7;
+            cursor: default;
+            pointer-events: none;
+        }
+
+        /* SECTION DIVIDER */
+        .section-divider {
+            border: none;
+            border-top: 2px dashed #3498db;
+            width: 60%;
+            margin: 40px auto;
+            position: relative;
+        }
+        .section-divider:before,
+        .section-divider:after {
+            content: "•";
+            color: #3498db;
+            position: absolute;
+            font-size: 20px;
+            top: -12px;
+        }
+        .section-divider:before { left: -5px; }
+        .section-divider:after { right: -5px; }
+
+        /* CATEGORY SECTIONS */
+        .category-section {
+            margin: 40px 0;
+        }
+
+        .category-title {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 15px;
+            font-size: 1.1em;
+            margin-bottom: 25px;
+            display: inline-block;
+        }
+
+        /* SERIES INTRO */
+        .series-intro {
+            background-color: #f9f2e2;
+            border: 2px dashed #3498db;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+        .series-intro p {
+            border: none;
+            background: none;
+            padding: 0;
+            margin: 0 0 12px 0;
+            font-size: 13px;
+            line-height: 1.8;
+            color: #555;
+        }
+        .series-intro p:last-child {
+            margin-bottom: 0;
+        }
+        .series-intro .collaborator {
+            font-style: italic;
+            color: #888;
+            font-size: 12px;
+        }
+
+        /* INFO SECTION */
+        .info-section {
+            background-color: #f5e9c9;
+            border: 2px dotted #2980b9;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        .info-section h3 {
+            margin-top: 0;
+            font-size: 1.1em;
+        }
+        .info-section p {
+            border: none;
+            background: none;
+            padding: 0;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+        .info-section ul {
+            border: none;
+            background: none;
+            padding-left: 20px;
+            margin: 15px 0;
+        }
+        .info-section li {
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+
+        /* PROVENANCE NOTE */
+        .provenance-note {
+            background-color: #f9f2e2;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 15px 0;
+            font-size: 12px;
+            font-style: italic;
+            color: #666;
+        }
+
+        /* VIDEO EMBED */
+        .artwork-video {
+            margin-top: 15px;
+            grid-column: 1 / -1;
+        }
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border: 2px dotted #2980b9;
+            border-radius: 10px;
+            background-color: #f9f2e2;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* ARTWORK WITH VIDEO - 3 column layout */
+        .artwork-listing.has-video {
+            grid-template-columns: 1fr 1.2fr;
+            grid-template-rows: auto auto;
+        }
+        .artwork-listing.has-video .artwork-video {
+            grid-column: 1 / -1;
+            grid-row: 2;
+        }
+
+        /* NAVIGATION */
+        nav {
+            border: 2px dotted #2980b9;
+            border-radius: 20px;
+            background-color: #f9f2e2;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin: 20px auto;
+            padding: 15px;
+        }
+        nav ul {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 5px;
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            border: none;
+            background: none;
+        }
+        nav a {
+            padding: 4px 8px;
+            background-color: #f9f2e2;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 1px 5px rgba(0,0,0,0.2);
+            display: inline-block;
+            font-size: 11px;
+            color: #3498db;
+            text-decoration: none;
+        }
+        nav a:hover {
+            background-color: #f5e9c9;
+        }
+        nav a.active {
+            background-color: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+
+        footer {
+            text-align: center;
+            padding-top: 20px;
+            margin-top: 30px;
+        }
+        footer p {
+            border: none;
+            background: none;
+        }
+        footer a {
+            color: #3498db;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .artwork-listing {
+                grid-template-columns: 1fr;
+            }
+            .artwork-listing.has-video {
+                grid-template-columns: 1fr;
+            }
+            .artwork-title {
+                font-size: 1.1em;
+            }
+            h1 {
+                font-size: 1.5em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            .page-wrapper, .page-container {
+                padding: 10px;
+            }
+            .artwork-listing {
+                padding: 15px;
+            }
+            .introduction {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="page-wrapper">
+    <div class="page-container">
+        <div class="notebook-clip clip-left"></div>
+        <div class="notebook-clip clip-right"></div>
+
+        <!-- Navigation -->
+        <nav>
+            <ul>
+                <li><a href="about.html">About</a></li>
+                <li><a href="animations.html">Animations</a></li>
+                <li><a href="intro.html">Living as Data</a></li>
+                <li><a href="unhindered.html">Unhindered AI</a></li>
+                <li><a href="shop.html" class="active">Shop</a></li>
+            </ul>
+        </nav>
+
+        <h1>Original Works for Sale</h1>
+
+        <div class="introduction">
+            <p>A small selection of original artworks available for purchase. These are unique, one-off pieces — once sold, they will not be reproduced.</p>
+            <p>My practice spans film, drawing, collage, and mixed media, often exploring themes of technology, perception, and the spaces between physical and digital experience. The research archive <em>Living as Data</em> documents ongoing investigations into AI emotional understanding and is not for sale.</p>
+            <p>To enquire about any work or arrange a studio visit in Folkestone, please get in touch.</p>
+        </div>
+
+        <hr class="section-divider">
+
+        <!-- UNHINDERED AI CONCERTINA BOOKS -->
+        <div class="category-section">
+            <span class="category-title">Unhindered AI — Concertina Books</span>
+
+            <div class="series-intro">
+                <p class="collaborator">Heidi Stokes in collaboration with Mercedes Bunz</p>
+                <p>Unhindered AI explores how AI systems process images and how the technology of 'machine learning' is enabling computers to understand and generate human language. It explores how the systems generate meaning with a curiosity for machinic difference: AI systems do not create images or language the same way humans do. Instead, what it does is more akin to data visualisation.</p>
+                <p>Unlike humans who get inspiration from reality, AI models derive what they make only from what they've been trained on. They don't really 'know' anything; the best they can do is spot and reproduce trends from data. This series explores the machinic side in a playful and haptic manner including the hallucinations, mistakes, and biases AI systems have become known for.</p>
+            </div>
+
+            <!-- AI BIAS -->
+            <article class="artwork-listing has-video">
+                <div class="artwork-image-container">
+                    <img src="images/aibias1.jpg" alt="AI Bias concertina book" class="artwork-image">
+                    <span class="status-badge available">Available</span>
+                </div>
+                <div class="artwork-details">
+                    <h2 class="artwork-title">AI Bias</h2>
+                    <p class="artwork-year">2023</p>
+                    <p class="artwork-description">
+                        When it comes to bias in AI, examples all have one thing in common – data. AI learns bias from the data it's trained on, which means researchers have to be really careful about how they gather and treat that data.
+                    </p>
+                    <div class="artwork-specs">
+                        <p><span class="spec-label">Format:</span> A5 Concertina Sketchbook</p>
+                        <p><span class="spec-label">Series:</span> Unhindered AI</p>
+                        <p><span class="spec-label">Edition:</span> Unique</p>
+                    </div>
+                    <p class="artwork-price">£350</p>
+                    <a href="mailto:heidistokes@me.com?subject=Purchase Enquiry: AI Bias&body=I am interested in purchasing 'AI Bias' (2023) from the Unhindered AI series. Please could you provide more information?" class="enquire-button">Enquire</a>
+                </div>
+                <div class="artwork-video">
+                    <div class="video-container">
+                        <iframe src="https://player.vimeo.com/video/863585384?h=0&title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </article>
+
+            <!-- AI IMAGE BUILDING -->
+            <article class="artwork-listing has-video">
+                <div class="artwork-image-container">
+                    <img src="images/imagebuilding1.jpg" alt="AI Image Building concertina book" class="artwork-image">
+                    <span class="status-badge available">Available</span>
+                </div>
+                <div class="artwork-details">
+                    <h2 class="artwork-title">AI Image Building</h2>
+                    <p class="artwork-year">2023</p>
+                    <p class="artwork-description">
+                        AI perceives texture not form. It gradually develops an image by revealing edges, lines, followed by pixels and then gradually recognisable parts of an image.
+                    </p>
+                    <div class="artwork-specs">
+                        <p><span class="spec-label">Format:</span> A5 Concertina Sketchbook</p>
+                        <p><span class="spec-label">Series:</span> Unhindered AI</p>
+                        <p><span class="spec-label">Edition:</span> Unique</p>
+                    </div>
+                    <p class="artwork-price">£350</p>
+                    <a href="mailto:heidistokes@me.com?subject=Purchase Enquiry: AI Image Building&body=I am interested in purchasing 'AI Image Building' (2023) from the Unhindered AI series. Please could you provide more information?" class="enquire-button">Enquire</a>
+                </div>
+                <div class="artwork-video">
+                    <div class="video-container">
+                        <iframe src="https://player.vimeo.com/video/863597214?h=0&title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </article>
+
+            <!-- CLUSTER HANDS -->
+            <article class="artwork-listing has-video">
+                <div class="artwork-image-container">
+                    <img src="images/clusterhands1.jpg" alt="Cluster Hands concertina book" class="artwork-image">
+                    <span class="status-badge available">Available</span>
+                </div>
+                <div class="artwork-details">
+                    <h2 class="artwork-title">Cluster Hands</h2>
+                    <p class="artwork-year">2023</p>
+                    <p class="artwork-description">
+                        AI clustering is the machine learning (ML) process of organising data into subgroups with similar attributes or elements.
+                    </p>
+                    <div class="artwork-specs">
+                        <p><span class="spec-label">Format:</span> A5 Concertina Sketchbook</p>
+                        <p><span class="spec-label">Series:</span> Unhindered AI</p>
+                        <p><span class="spec-label">Edition:</span> Unique</p>
+                    </div>
+                    <p class="artwork-price">£350</p>
+                    <a href="mailto:heidistokes@me.com?subject=Purchase Enquiry: Cluster Hands&body=I am interested in purchasing 'Cluster Hands' (2023) from the Unhindered AI series. Please could you provide more information?" class="enquire-button">Enquire</a>
+                </div>
+                <div class="artwork-video">
+                    <div class="video-container">
+                        <iframe src="https://player.vimeo.com/video/865097958?h=0&title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </article>
+
+            <!-- VISUAL TRAINING MODEL -->
+            <article class="artwork-listing has-video">
+                <div class="artwork-image-container">
+                    <img src="images/visualtraining1.jpg" alt="Visual Training Model concertina book" class="artwork-image">
+                    <span class="status-badge available">Available</span>
+                </div>
+                <div class="artwork-details">
+                    <h2 class="artwork-title">Visual Training Model</h2>
+                    <p class="artwork-year">2023</p>
+                    <p class="artwork-description">
+                        Human and AI Collaboration, using Adobe's new generative AI feature in Photoshop.
+                    </p>
+                    <div class="artwork-specs">
+                        <p><span class="spec-label">Format:</span> A5 Concertina Sketchbook</p>
+                        <p><span class="spec-label">Series:</span> Unhindered AI</p>
+                        <p><span class="spec-label">Edition:</span> Unique</p>
+                    </div>
+                    <p class="artwork-price">£350</p>
+                    <a href="mailto:heidistokes@me.com?subject=Purchase Enquiry: Visual Training Model&body=I am interested in purchasing 'Visual Training Model' (2023) from the Unhindered AI series. Please could you provide more information?" class="enquire-button">Enquire</a>
+                </div>
+                <div class="artwork-video">
+                    <div class="video-container">
+                        <iframe src="https://player.vimeo.com/video/865099318?h=0&title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </article>
+
+            <!-- RE-ADAPTED -->
+            <article class="artwork-listing has-video">
+                <div class="artwork-image-container">
+                    <img src="images/readapted1.jpg" alt="Re-adapted concertina book" class="artwork-image">
+                    <span class="status-badge available">Available</span>
+                </div>
+                <div class="artwork-details">
+                    <h2 class="artwork-title">Re-adapted</h2>
+                    <p class="artwork-year">2023</p>
+                    <p class="artwork-description">
+                        "Generative AI can mimic, but not replace, human intelligence."
+                    </p>
+                    <div class="artwork-specs">
+                        <p><span class="spec-label">Format:</span> A5 Concertina Sketchbook</p>
+                        <p><span class="spec-label">Series:</span> Unhindered AI</p>
+                        <p><span class="spec-label">Edition:</span> Unique</p>
+                    </div>
+                    <p class="artwork-price">£350</p>
+                    <a href="mailto:heidistokes@me.com?subject=Purchase Enquiry: Re-adapted&body=I am interested in purchasing 'Re-adapted' (2023) from the Unhindered AI series. Please could you provide more information?" class="enquire-button">Enquire</a>
+                </div>
+                <div class="artwork-video">
+                    <div class="video-container">
+                        <iframe src="https://player.vimeo.com/video/865101315?h=0&title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </article>
+
+        </div>
+
+        <hr class="section-divider">
+
+        <!-- DRAWINGS & WORKS ON PAPER -->
+        <div class="category-section">
+            <span class="category-title">Drawings & Works on Paper</span>
+
+            <!-- Artwork 1 -->
+            <article class="artwork-listing">
+                <div class="artwork-image-container">
+                    <img src="https://picsum.photos/seed/hs-draw1/500/400" alt="Threshold Study I" class="artwork-image">
+                    <span class="status-badge available">Available</span>
+                </div>
+                <div class="artwork-details">
+                    <h2 class="artwork-title">Threshold Study I</h2>
+                    <p class="artwork-year">2024</p>
+                    <p class="artwork-description">
+                        An exploration of liminal spaces and boundary states. The drawing builds through accumulative mark-making, tracing thresholds between presence and absence, the sensed and the imagined.
+                    </p>
+                    <div class="artwork-specs">
+                        <p><span class="spec-label">Medium:</span> Graphite and ink on archival paper</p>
+                        <p><span class="spec-label">Dimensions:</span> 42 × 59 cm (unframed)</p>
+                        <p><span class="spec-label">Framing:</span> Can be supplied framed (+£80)</p>
+                    </div>
+                    <p class="artwork-price">£450</p>
+                    <a href="mailto:heidistokes@me.com?subject=Enquiry: Threshold Study I&body=I am interested in purchasing 'Threshold Study I' (2024). Please could you provide more information?" class="enquire-button">Enquire</a>
+                </div>
+            </article>
+
+            <!-- Artwork 2 -->
+            <article class="artwork-listing">
+                <div class="artwork-image-container">
+                    <img src="https://picsum.photos/seed/hs-draw2/500/400" alt="Listening Position" class="artwork-image">
+                    <span class="status-badge available">Available</span>
+                </div>
+                <div class="artwork-details">
+                    <h2 class="artwork-title">Listening Position</h2>
+                    <p class="artwork-year">2024</p>
+                    <p class="artwork-description">
+                        What does it mean to attend? This drawing emerged from sustained observation — of sound, of space, of the quality of attention itself. Marks accumulate like notation for something that cannot quite be transcribed.
+                    </p>
+                    <div class="artwork-specs">
+                        <p><span class="spec-label">Medium:</span> Charcoal and pastel on paper</p>
+                        <p><span class="spec-label">Dimensions:</span> 59 × 84 cm</p>
+                        <p><span class="spec-label">Presentation:</span> Mounted, unframed</p>
+                    </div>
+                    <p class="artwork-price">£680</p>
+                    <a href="mailto:heidistokes@me.com?subject=Enquiry: Listening Position&body=I am interested in purchasing 'Listening Position' (2024). Please could you provide more information?" class="enquire-button">Enquire</a>
+                </div>
+            </article>
+        </div>
+
+        <hr class="section-divider">
+
+        <!-- COLLAGE & MIXED MEDIA -->
+        <div class="category-section">
+            <span class="category-title">Collage & Mixed Media</span>
+
+            <!-- Artwork 3 -->
+            <article class="artwork-listing">
+                <div class="artwork-image-container">
+                    <img src="https://picsum.photos/seed/hs-coll1/500/400" alt="Embodied Fragment III" class="artwork-image">
+                    <span class="status-badge available">Available</span>
+                </div>
+                <div class="artwork-details">
+                    <h2 class="artwork-title">Embodied Fragment III</h2>
+                    <p class="artwork-year">2023</p>
+                    <p class="artwork-description">
+                        Part of an ongoing series examining the relationship between body and trace. Layers of found material, drawing and photographic elements build up and obscure one another, creating a palimpsest of gesture and memory.
+                    </p>
+                    <div class="artwork-specs">
+                        <p><span class="spec-label">Medium:</span> Collage, ink, and graphite on paper</p>
+                        <p><span class="spec-label">Dimensions:</span> 30 × 40 cm</p>
+                        <p><span class="spec-label">Presentation:</span> Float mounted</p>
+                    </div>
+                    <p class="artwork-price">£320</p>
+                    <a href="mailto:heidistokes@me.com?subject=Enquiry: Embodied Fragment III&body=I am interested in purchasing 'Embodied Fragment III' (2023). Please could you provide more information?" class="enquire-button">Enquire</a>
+                </div>
+            </article>
+
+            <!-- Artwork 4 - SOLD -->
+            <article class="artwork-listing">
+                <div class="artwork-image-container">
+                    <img src="https://picsum.photos/seed/hs-coll2/500/400" alt="Tactile Correspondence" class="artwork-image">
+                    <span class="status-badge sold">Sold</span>
+                </div>
+                <div class="artwork-details">
+                    <h2 class="artwork-title">Tactile Correspondence</h2>
+                    <p class="artwork-year">2022</p>
+                    <p class="artwork-description">
+                        Created during a period exploring touch and communication at a distance. The work incorporates materials sent through the post — envelopes, stamps, fragments — bearing the traces of their journey between sender and receiver.
+                    </p>
+                    <div class="artwork-specs">
+                        <p><span class="spec-label">Medium:</span> Mixed media assemblage</p>
+                        <p><span class="spec-label">Dimensions:</span> 50 × 70 cm</p>
+                        <p><span class="spec-label">Note:</span> This work has found a home</p>
+                    </div>
+                    <p class="artwork-price" style="color: #999; text-decoration: line-through;">£580</p>
+                    <span class="enquire-button sold">Sold</span>
+                </div>
+            </article>
+        </div>
+
+        <hr class="section-divider">
+      
+
+        <!-- PURCHASING INFO -->
+        <div class="info-section">
+            <h3>Purchasing Information</h3>
+            <p>All works are unique originals and come with a signed certificate of authenticity.</p>
+            <ul>
+                <li><strong>Payment:</strong> Bank transfer or PayPal</li>
+                <li><strong>UK delivery:</strong> Included in price</li>
+                <li><strong>International:</strong> Shipping quoted on request</li>
+                <li><strong>Returns:</strong> Works may be returned within 14 days if received undamaged</li>
+            </ul>
+        </div>
+
+        <!-- COMMISSIONS -->
+        <div class="introduction">
+            <p><strong>Commissions & Licensing</strong></p>
+            <p>I don't generally take commissions, though I'm open to conversations if there's an interesting project involved. Please get in touch.</p>
+            <p>Contact: <a href="mailto:heidistokes2001@yahoo.co.uk">heidistokes2001@yahoo.co.uk</a></p>
+        </div>
+
+        <!-- LICENSING -->
+        <div class="introduction">
+            <p><strong>Licensing</strong></p>
+            <p>For broadcast or institutional use of animation work, please get in touch to discuss terms.</p>
+            <p>Contact: <a href="mailto:heidistokes2001@yahoo.co.uk">heidistokes2001@yahoo.co.uk</a></p>
+        </div>
+
+        <footer>
+            <p><a href="#top">↑ Back to top</a></p>
+            <p>© 2025 Heidi Stokes</p>
+        </footer>
+
+    </div>
+</div>
+
+</body>
+</html>
