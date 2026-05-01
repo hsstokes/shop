@@ -169,6 +169,7 @@
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            z-index: 5;
         }
         .status-badge.available {
             background-color: #27ae60;
@@ -442,6 +443,130 @@
             color: #3498db;
         }
 
+        /* ==================== */
+        /* LIGHTBOX STYLES */
+        /* ==================== */
+        .lightbox-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .lightbox-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .lightbox-content {
+            position: relative;
+            max-width: 90vw;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .lightbox-image {
+            max-width: 90vw;
+            max-height: 80vh;
+            object-fit: contain;
+            border-radius: 10px;
+            box-shadow: 0 10px 50px rgba(0,0,0,0.5);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: -40px;
+            right: -10px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 36px;
+            cursor: pointer;
+            padding: 10px;
+            line-height: 1;
+            transition: transform 0.2s ease, color 0.2s ease;
+        }
+        .lightbox-close:hover {
+            color: #3498db;
+            transform: scale(1.2);
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,255,255,0.3);
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+            padding: 15px 20px;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+        }
+        .lightbox-nav:hover {
+            background: rgba(52, 152, 219, 0.8);
+            border-color: #3498db;
+        }
+        .lightbox-prev {
+            left: -70px;
+        }
+        .lightbox-next {
+            right: -70px;
+        }
+
+        .lightbox-caption {
+            color: white;
+            margin-top: 15px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .lightbox-counter {
+            color: rgba(255,255,255,0.6);
+            font-size: 12px;
+            margin-top: 8px;
+        }
+
+        .lightbox-thumbnails {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            max-width: 90vw;
+        }
+
+        .lightbox-thumb {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 6px;
+            cursor: pointer;
+            opacity: 0.5;
+            transition: all 0.2s ease;
+        }
+        .lightbox-thumb:hover {
+            opacity: 0.8;
+            border-color: rgba(255,255,255,0.6);
+        }
+        .lightbox-thumb.active {
+            opacity: 1;
+            border-color: #3498db;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.5);
+        }
+
         /* RESPONSIVE */
         @media (max-width: 768px) {
             .artwork-listing {
@@ -457,6 +582,24 @@
                 font-size: 1.5em;
             }
             .gallery-thumb {
+                width: 50px;
+                height: 50px;
+            }
+            .lightbox-nav {
+                padding: 10px 15px;
+                font-size: 20px;
+            }
+            .lightbox-prev {
+                left: 10px;
+            }
+            .lightbox-next {
+                right: 10px;
+            }
+            .lightbox-close {
+                top: -50px;
+                right: 0;
+            }
+            .lightbox-thumb {
                 width: 50px;
                 height: 50px;
             }
@@ -479,10 +622,26 @@
                 width: 45px;
                 height: 45px;
             }
+            .lightbox-thumbnails {
+                display: none;
+            }
         }
     </style>
 </head>
 <body id="top">
+
+<!-- LIGHTBOX -->
+<div class="lightbox-overlay" id="lightbox">
+    <div class="lightbox-content">
+        <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+        <button class="lightbox-nav lightbox-prev" onclick="navigateLightbox(-1)">&#10094;</button>
+        <img src="" alt="" class="lightbox-image" id="lightbox-img">
+        <button class="lightbox-nav lightbox-next" onclick="navigateLightbox(1)">&#10095;</button>
+        <p class="lightbox-caption" id="lightbox-caption"></p>
+        <p class="lightbox-counter" id="lightbox-counter"></p>
+        <div class="lightbox-thumbnails" id="lightbox-thumbnails"></div>
+    </div>
+</div>
 
 <div class="page-wrapper">
     <div class="page-container">
@@ -522,14 +681,14 @@
 
             <!-- AI BIAS -->
             <article class="artwork-listing has-video">
-                <div class="artwork-image-container">
+                <div class="artwork-image-container" data-gallery="bias" data-title="AI Bias">
                     <span class="status-badge available">Available</span>
-                    <img src="images/bias1.jpg" alt="AI Bias concertina book" class="gallery-main" id="bias-main">
+                    <img src="images/bias1.jpg" alt="AI Bias concertina book" class="gallery-main" id="bias-main" onclick="openLightbox('bias', 0)">
                     <div class="gallery-thumbnails">
-                        <img src="images/bias1.jpg" alt="AI Bias view 1" class="gallery-thumb active" onclick="changeImage('bias-main', this, 'images/bias1.jpg')">
-                        <img src="images/bias2.jpg" alt="AI Bias view 2" class="gallery-thumb" onclick="changeImage('bias-main', this, 'images/bias2.jpg')">
-                        <img src="images/bias3.jpg" alt="AI Bias view 3" class="gallery-thumb" onclick="changeImage('bias-main', this, 'images/bias3.jpg')">
-                        <img src="images/bias4.jpg" alt="AI Bias view 4" class="gallery-thumb" onclick="changeImage('bias-main', this, 'images/bias4.jpg')">
+                        <img src="images/bias1.jpg" alt="AI Bias view 1" class="gallery-thumb active" data-index="0" onclick="changeImage('bias-main', this, 'images/bias1.jpg')">
+                        <img src="images/bias2.jpg" alt="AI Bias view 2" class="gallery-thumb" data-index="1" onclick="changeImage('bias-main', this, 'images/bias2.jpg')">
+                        <img src="images/bias3.jpg" alt="AI Bias view 3" class="gallery-thumb" data-index="2" onclick="changeImage('bias-main', this, 'images/bias3.jpg')">
+                        <img src="images/bias4.jpg" alt="AI Bias view 4" class="gallery-thumb" data-index="3" onclick="changeImage('bias-main', this, 'images/bias4.jpg')">
                     </div>
                 </div>
                 <div class="artwork-details">
@@ -555,14 +714,14 @@
 
             <!-- AI IMAGE BUILDING -->
             <article class="artwork-listing has-video">
-                <div class="artwork-image-container">
+                <div class="artwork-image-container" data-gallery="imagebuilding" data-title="AI Image Building">
                     <span class="status-badge available">Available</span>
-                    <img src="images/imagebuilding1.jpg" alt="AI Image Building concertina book" class="gallery-main" id="imagebuilding-main">
+                    <img src="images/imagebuilding1.jpg" alt="AI Image Building concertina book" class="gallery-main" id="imagebuilding-main" onclick="openLightbox('imagebuilding', 0)">
                     <div class="gallery-thumbnails">
-                        <img src="images/imagebuilding1.jpg" alt="AI Image Building view 1" class="gallery-thumb active" onclick="changeImage('imagebuilding-main', this, 'images/imagebuilding1.jpg')">
-                        <img src="images/imagebuilding2.jpg" alt="AI Image Building view 2" class="gallery-thumb" onclick="changeImage('imagebuilding-main', this, 'images/imagebuilding2.jpg')">
-                        <img src="images/imagebuilding3.jpg" alt="AI Image Building view 3" class="gallery-thumb" onclick="changeImage('imagebuilding-main', this, 'images/imagebuilding3.jpg')">
-                        <img src="images/imagebuilding4.jpg" alt="AI Image Building view 4" class="gallery-thumb" onclick="changeImage('imagebuilding-main', this, 'images/imagebuilding4.jpg')">
+                        <img src="images/imagebuilding1.jpg" alt="AI Image Building view 1" class="gallery-thumb active" data-index="0" onclick="changeImage('imagebuilding-main', this, 'images/imagebuilding1.jpg')">
+                        <img src="images/imagebuilding2.jpg" alt="AI Image Building view 2" class="gallery-thumb" data-index="1" onclick="changeImage('imagebuilding-main', this, 'images/imagebuilding2.jpg')">
+                        <img src="images/imagebuilding3.jpg" alt="AI Image Building view 3" class="gallery-thumb" data-index="2" onclick="changeImage('imagebuilding-main', this, 'images/imagebuilding3.jpg')">
+                        <img src="images/imagebuilding4.jpg" alt="AI Image Building view 4" class="gallery-thumb" data-index="3" onclick="changeImage('imagebuilding-main', this, 'images/imagebuilding4.jpg')">
                     </div>
                 </div>
                 <div class="artwork-details">
@@ -588,13 +747,13 @@
 
             <!-- CLUSTER HANDS -->
             <article class="artwork-listing has-video">
-                <div class="artwork-image-container">
+                <div class="artwork-image-container" data-gallery="cluster" data-title="Cluster Hands">
                     <span class="status-badge available">Available</span>
-                    <img src="images/cluster-dots1.jpg" alt="Cluster Hands concertina book" class="gallery-main" id="cluster-main">
+                    <img src="images/cluster-dots1.jpg" alt="Cluster Hands concertina book" class="gallery-main" id="cluster-main" onclick="openLightbox('cluster', 0)">
                     <div class="gallery-thumbnails">
-                        <img src="images/cluster-dots1.jpg" alt="Cluster Hands view 1" class="gallery-thumb active" onclick="changeImage('cluster-main', this, 'images/cluster-dots1.jpg')">
-                        <img src="images/cluster-dots2.jpg" alt="Cluster Hands view 2" class="gallery-thumb" onclick="changeImage('cluster-main', this, 'images/cluster-dots2.jpg')">
-                        <img src="images/cluster-dots3.jpg" alt="Cluster Hands view 3" class="gallery-thumb" onclick="changeImage('cluster-main', this, 'images/cluster-dots3.jpg')">
+                        <img src="images/cluster-dots1.jpg" alt="Cluster Hands view 1" class="gallery-thumb active" data-index="0" onclick="changeImage('cluster-main', this, 'images/cluster-dots1.jpg')">
+                        <img src="images/cluster-dots2.jpg" alt="Cluster Hands view 2" class="gallery-thumb" data-index="1" onclick="changeImage('cluster-main', this, 'images/cluster-dots2.jpg')">
+                        <img src="images/cluster-dots3.jpg" alt="Cluster Hands view 3" class="gallery-thumb" data-index="2" onclick="changeImage('cluster-main', this, 'images/cluster-dots3.jpg')">
                     </div>
                 </div>
                 <div class="artwork-details">
@@ -620,14 +779,14 @@
 
             <!-- VISUAL TRAINING MODEL -->
             <article class="artwork-listing has-video">
-                <div class="artwork-image-container">
+                <div class="artwork-image-container" data-gallery="visual" data-title="Visual Training Model">
                     <span class="status-badge sold">Sold</span>
-                    <img src="images/visual-training-model-1.jpg" alt="Visual Training Model concertina book" class="gallery-main" id="visual-main">
+                    <img src="images/visual-training-model-1.jpg" alt="Visual Training Model concertina book" class="gallery-main" id="visual-main" onclick="openLightbox('visual', 0)">
                     <div class="gallery-thumbnails">
-                        <img src="images/visual-training-model-1.jpg" alt="Visual Training Model view 1" class="gallery-thumb active" onclick="changeImage('visual-main', this, 'images/visual-training-model-1.jpg')">
-                        <img src="images/visual-training-model-2.jpg" alt="Visual Training Model view 2" class="gallery-thumb" onclick="changeImage('visual-main', this, 'images/visual-training-model-2.jpg')">
-                        <img src="images/visual-training-model-3.jpg" alt="Visual Training Model view 3" class="gallery-thumb" onclick="changeImage('visual-main', this, 'images/visual-training-model-3.jpg')">
-                        <img src="images/visual-training-model-4.jpg" alt="Visual Training Model view 4" class="gallery-thumb" onclick="changeImage('visual-main', this, 'images/visual-training-model-4.jpg')">
+                        <img src="images/visual-training-model-1.jpg" alt="Visual Training Model view 1" class="gallery-thumb active" data-index="0" onclick="changeImage('visual-main', this, 'images/visual-training-model-1.jpg')">
+                        <img src="images/visual-training-model-2.jpg" alt="Visual Training Model view 2" class="gallery-thumb" data-index="1" onclick="changeImage('visual-main', this, 'images/visual-training-model-2.jpg')">
+                        <img src="images/visual-training-model-3.jpg" alt="Visual Training Model view 3" class="gallery-thumb" data-index="2" onclick="changeImage('visual-main', this, 'images/visual-training-model-3.jpg')">
+                        <img src="images/visual-training-model-4.jpg" alt="Visual Training Model view 4" class="gallery-thumb" data-index="3" onclick="changeImage('visual-main', this, 'images/visual-training-model-4.jpg')">
                     </div>
                 </div>
                 <div class="artwork-details">
@@ -653,14 +812,14 @@
 
             <!-- RE-ADAPTED -->
             <article class="artwork-listing has-video">
-                <div class="artwork-image-container">
+                <div class="artwork-image-container" data-gallery="readapted" data-title="Re-adapted">
                     <span class="status-badge available">Available</span>
-                    <img src="images/RE-ADAPTED-1.jpg" alt="Re-adapted concertina book" class="gallery-main" id="readapted-main">
+                    <img src="images/RE-ADAPTED-1.jpg" alt="Re-adapted concertina book" class="gallery-main" id="readapted-main" onclick="openLightbox('readapted', 0)">
                     <div class="gallery-thumbnails">
-                        <img src="images/RE-ADAPTED-1.jpg" alt="Re-adapted view 1" class="gallery-thumb active" onclick="changeImage('readapted-main', this, 'images/RE-ADAPTED-1.jpg')">
-                        <img src="images/RE-ADAPTED-2.jpg" alt="Re-adapted view 2" class="gallery-thumb" onclick="changeImage('readapted-main', this, 'images/RE-ADAPTED-2.jpg')">
-                        <img src="images/RE-ADAPTED-3.jpg" alt="Re-adapted view 3" class="gallery-thumb" onclick="changeImage('readapted-main', this, 'images/RE-ADAPTED-3.jpg')">
-                        <img src="images/RE-ADAPTED-4.jpg" alt="Re-adapted view 4" class="gallery-thumb" onclick="changeImage('readapted-main', this, 'images/RE-ADAPTED-4.jpg')">
+                        <img src="images/RE-ADAPTED-1.jpg" alt="Re-adapted view 1" class="gallery-thumb active" data-index="0" onclick="changeImage('readapted-main', this, 'images/RE-ADAPTED-1.jpg')">
+                        <img src="images/RE-ADAPTED-2.jpg" alt="Re-adapted view 2" class="gallery-thumb" data-index="1" onclick="changeImage('readapted-main', this, 'images/RE-ADAPTED-2.jpg')">
+                        <img src="images/RE-ADAPTED-3.jpg" alt="Re-adapted view 3" class="gallery-thumb" data-index="2" onclick="changeImage('readapted-main', this, 'images/RE-ADAPTED-3.jpg')">
+                        <img src="images/RE-ADAPTED-4.jpg" alt="Re-adapted view 4" class="gallery-thumb" data-index="3" onclick="changeImage('readapted-main', this, 'images/RE-ADAPTED-4.jpg')">
                     </div>
                 </div>
                 <div class="artwork-details">
@@ -723,17 +882,130 @@
 </div>
 
 <script>
+    // Gallery data storage
+    const galleries = {};
+    let currentGallery = null;
+    let currentIndex = 0;
+
+    // Initialize galleries on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.artwork-image-container').forEach(container => {
+            const galleryId = container.dataset.gallery;
+            const title = container.dataset.title;
+            const thumbs = container.querySelectorAll('.gallery-thumb');
+            
+            galleries[galleryId] = {
+                title: title,
+                images: Array.from(thumbs).map(thumb => ({
+                    src: thumb.src,
+                    alt: thumb.alt
+                }))
+            };
+        });
+    });
+
+    // Change main image (existing functionality)
     function changeImage(mainId, thumbElement, newSrc) {
-        // Update main image
         document.getElementById(mainId).src = newSrc;
         
-        // Update active state on thumbnails
         const container = thumbElement.parentElement;
         container.querySelectorAll('.gallery-thumb').forEach(thumb => {
             thumb.classList.remove('active');
         });
         thumbElement.classList.add('active');
     }
+
+    // Open lightbox
+    function openLightbox(galleryId, index) {
+        currentGallery = galleryId;
+        currentIndex = index;
+        
+        const gallery = galleries[galleryId];
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxCaption = document.getElementById('lightbox-caption');
+        const lightboxCounter = document.getElementById('lightbox-counter');
+        const lightboxThumbnails = document.getElementById('lightbox-thumbnails');
+        
+        // Set image
+        lightboxImg.src = gallery.images[index].src;
+        lightboxImg.alt = gallery.images[index].alt;
+        
+        // Set caption and counter
+        lightboxCaption.textContent = gallery.title;
+        lightboxCounter.textContent = `${index + 1} / ${gallery.images.length}`;
+        
+        // Build thumbnails
+        lightboxThumbnails.innerHTML = '';
+        gallery.images.forEach((img, i) => {
+            const thumb = document.createElement('img');
+            thumb.src = img.src;
+            thumb.alt = img.alt;
+            thumb.className = 'lightbox-thumb' + (i === index ? ' active' : '');
+            thumb.onclick = () => goToImage(i);
+            lightboxThumbnails.appendChild(thumb);
+        });
+        
+        // Show lightbox
+        lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    // Close lightbox
+    function closeLightbox() {
+        const lightbox = document.getElementById('lightbox');
+        lightbox.classList.remove('active');
+        document.body.style.overflow = '';
+        currentGallery = null;
+    }
+
+    // Navigate lightbox
+    function navigateLightbox(direction) {
+        if (!currentGallery) return;
+        
+        const gallery = galleries[currentGallery];
+        currentIndex += direction;
+        
+        // Loop around
+        if (currentIndex < 0) currentIndex = gallery.images.length - 1;
+        if (currentIndex >= gallery.images.length) currentIndex = 0;
+        
+        goToImage(currentIndex);
+    }
+
+    // Go to specific image
+    function goToImage(index) {
+        if (!currentGallery) return;
+        
+        currentIndex = index;
+        const gallery = galleries[currentGallery];
+        
+        const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxCounter = document.getElementById('lightbox-counter');
+        
+        lightboxImg.src = gallery.images[index].src;
+        lightboxImg.alt = gallery.images[index].alt;
+        lightboxCounter.textContent = `${index + 1} / ${gallery.images.length}`;
+        
+        // Update thumbnail active state
+        document.querySelectorAll('#lightbox-thumbnails .lightbox-thumb').forEach((thumb, i) => {
+            thumb.classList.toggle('active', i === index);
+        });
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', function(e) {
+        if (!currentGallery) return;
+        
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowLeft') navigateLightbox(-1);
+        if (e.key === 'ArrowRight') navigateLightbox(1);
+    });
+
+    // Click outside to close
+    document.getElementById('lightbox').addEventListener('click', function(e) {
+        if (e.target === this) closeLightbox();
+    });
 </script>
 
 </body>
