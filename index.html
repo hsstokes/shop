@@ -580,72 +580,105 @@
             box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.5);
         }
 
-        /* RESPONSIVE */
         @media (max-width: 768px) {
-            .artwork-listing {
-                grid-template-columns: 1fr;
-            }
-            .artwork-listing.has-video {
-                grid-template-columns: 1fr;
-            }
-            .artwork-title {
-                font-size: 1.1em;
-            }
-            h1 {
-                font-size: 1.5em;
-            }
-            .gallery-thumb {
-                width: 50px;
-                height: 50px;
-            }
-            .lightbox-nav {
-                padding: 12px 14px;
-                font-size: 18px;
-            }
-            .lightbox-prev {
-                left: 10px;
-            }
-            .lightbox-next {
-                right: 10px;
-            }
-            .lightbox-close {
-                top: -45px;
-                right: 5px;
-                font-size: 35px;
-            }
-            .lightbox-thumb {
-                width: 50px;
-                height: 50px;
-            }
-            .lightbox-image {
-                max-height: 60vh;
-            }
+        body {
+            font-size: 14px;
+            padding: 10px;
+            background-size: 18px 18px;
         }
+        
+        .page-wrapper, .page-container {
+            padding: 10px;
+            width: 95%;
+            max-width: 100%;
+            border-radius: 20px;
+        }
+        
+        .page-container {
+            box-shadow: none;
+            border: 2px dashed #3498db;
+        }
+        
+        h1 {
+            font-size: 1.5em;
+            padding: 10px;
+        }
+        
+        .artwork-listing {
+            grid-template-columns: 1fr;
+        }
+        .artwork-listing.has-video {
+            grid-template-columns: 1fr;
+        }
+        .artwork-title {
+            font-size: 1.1em;
+        }
+        .gallery-thumb {
+            width: 50px;
+            height: 50px;
+        }
+        .lightbox-nav {
+            padding: 12px 14px;
+            font-size: 18px;
+        }
+        .lightbox-prev {
+            left: 10px;
+        }
+        .lightbox-next {
+            right: 10px;
+        }
+        .lightbox-close {
+            top: -45px;
+            right: 5px;
+            font-size: 35px;
+        }
+        .lightbox-thumb {
+            width: 50px;
+            height: 50px;
+        }
+        .lightbox-image {
+            max-height: 60vh;
+        }
+        
+        nav {
+            padding: 10px 5px;
+        }
+        
+        nav a {
+            font-size: 12px;
+            padding: 5px 8px;
+        }
+    }
 
-        @media (max-width: 480px) {
-            body {
-                padding: 10px;
-            }
-            .page-wrapper, .page-container {
-                padding: 10px;
-            }
-            .artwork-listing {
-                padding: 15px;
-            }
-            .introduction {
-                padding: 15px;
-            }
-            .gallery-thumb {
-                width: 45px;
-                height: 45px;
-            }
-            .lightbox-thumbnails {
-                display: none;
-            }
-            .lightbox-image {
-                max-height: 55vh;
-            }
+    @media (max-width: 480px) {
+        body {
+            font-size: 13px;
+            padding: 5px;
+            background-size: 15px 15px;
         }
+        
+        .page-wrapper, .page-container {
+            padding: 8px;
+            border-width: 1px;
+        }
+        
+        .artwork-listing {
+            padding: 15px;
+        }
+        .introduction {
+            padding: 15px;
+        }
+        .gallery-thumb {
+            width: 45px;
+            height: 45px;
+        }
+        .lightbox-thumbnails {
+            display: none;
+        }
+        .lightbox-image {
+            max-height: 55vh;
+        }
+    }
     </style>
 </head>
 <body id="top">
