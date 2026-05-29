@@ -6,407 +6,133 @@
     <title>Shop | Heidi Stokes</title>
     
     <style>
-        * { box-sizing: border-box; }
-        
-        body {
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 12px;
-            color: #2c3e50;
-            background-image: 
-                linear-gradient(#ccc 1px, transparent 1px),
-                linear-gradient(90deg, #ccc 1px, transparent 1px);
-            background-color: #f9f2e2;
-            background-size: 20px 20px;
-            background-blend-mode: multiply;
-            padding: 20px;
-            line-height: 1.6;
+        @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@300;400;500&display=swap');
+
+        :root {
+            --ink: #1a1a1a;
+            --paper: #f2ede8;
+            --paper-mid: #e8e2da;
+            --grid: #ddd8d2;
+            --warm-border: #ccc7c0;
+            --mid: #8a8580;
+            --green: #27ae60;
         }
 
+        * { box-sizing: border-box; }
+        html, body { overflow-x: hidden; width: 100%; }
+
+        body {
+            font-family: 'IBM Plex Mono', 'Courier New', monospace;
+            font-size: 13px;
+            color: var(--ink);
+            background-color: var(--paper);
+            background-image:
+                linear-gradient(var(--grid) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+            background-size: 28px 28px;
+            padding: 20px;
+            line-height: 1.7;
+            margin: 0;
+        }
+
+        /* PAGE WRAPPERS */
         .page-wrapper {
             max-width: 900px;
             width: 95%;
             margin: 10px auto;
-            border: 2px dashed #3498db;
-            border-radius: 35px;
-            padding: 10px;
-            background-color: #f9f2e2;
+            border: 1px solid var(--warm-border);
+            border-radius: 4px;
+            padding: 0;
+            background: var(--paper);
+            overflow: hidden;
         }
 
         .page-container {
             max-width: 880px;
             width: 100%;
             margin: 0 auto;
-            border: 2px solid #2980b9;
-            border-radius: 30px;
-            padding: 20px;
-            background-color: #f9f2e2;
+            border: none;
+            padding: 25px 30px;
+            background: var(--paper);
             position: relative;
-            box-shadow: 0 0 0 8px #f9f2e2, 0 0 0 10px #3498db;
-        }
-
-        .notebook-clip {
-            position: absolute;
-            width: 40px;
-            height: 10px;
-            background: #a0a0a0;
-            border-radius: 4px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            z-index: 10;
-        }
-        .clip-left { top: -5px; left: 80px; transform: rotate(2deg); }
-        .clip-right { top: -5px; right: 80px; transform: rotate(-2deg); }
-
-        h1, h2, h3 {
-            border: 2px dotted #2980b9;
-            border-radius: 20px;
-            background-color: #f9f2e2;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            margin-bottom: 15px;
-            text-align: center;
-            color: #2c3e50;
-        }
-        h1 { font-size: 1.8em; padding: 12px; }
-        h2 { font-size: 1.4em; padding: 8px; margin-top: 30px; border: none; box-shadow: none; text-align: left; }
-        h3 { font-size: 1.1em; padding: 6px; }
-
-        .introduction {
-            background-color: #f5e9c9;
-            border: 2px dotted #2980b9;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 25px;
-        }
-        .introduction p {
-            border: none;
-            background: none;
-            padding: 0;
-            margin-bottom: 15px;
-            font-size: 14px;
-        }
-        .introduction p:last-child {
-            margin-bottom: 0;
-        }
-
-        /* ARTWORK LISTINGS */
-        .artwork-listing {
-            background-color: #f5e9c9;
-            border: 2px dotted #2980b9;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 25px;
-            display: grid;
-            grid-template-columns: 1fr 1.2fr;
-            gap: 25px;
-            align-items: start;
-        }
-
-        .artwork-image-container {
-            position: relative;
-        }
-
-        .artwork-image {
-            width: 100%;
-            height: auto;
-            border: 2px dotted #2980b9;
-            border-radius: 10px;
-            padding: 8px;
-            background-color: #f9f2e2;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
-            transition: transform 0.3s ease;
-            cursor: zoom-in;
-        }
-        .artwork-image:hover {
-            transform: scale(1.02);
-        }
-
-        /* IMAGE GALLERY */
-        .gallery-main {
-            width: 100%;
-            height: auto;
-            border: 2px dotted #2980b9;
-            border-radius: 10px;
-            padding: 8px;
-            background-color: #f9f2e2;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
-            cursor: zoom-in;
-            transition: opacity 0.3s ease;
-        }
-
-        .gallery-thumbnails {
-            display: flex;
-            gap: 8px;
-            margin-top: 10px;
-            flex-wrap: wrap;
-        }
-
-        .gallery-thumb {
-            width: 60px;
-            height: 60px;
-            object-fit: cover;
-            border: 2px solid #ccc;
-            border-radius: 6px;
-            cursor: pointer;
-            opacity: 0.6;
-            transition: all 0.2s ease;
-        }
-        .gallery-thumb:hover {
-            opacity: 1;
-            border-color: #3498db;
-        }
-        .gallery-thumb.active {
-            opacity: 1;
-            border-color: #3498db;
-            box-shadow: 0 0 0 2px #f9f2e2, 0 0 0 4px #3498db;
-        }
-
-        .status-badge {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            padding: 6px 12px;
-            border-radius: 15px;
-            font-size: 10px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            z-index: 5;
-        }
-        .status-badge.available {
-            background-color: #27ae60;
-            color: white;
-        }
-        .status-badge.sold {
-            background-color: #7f8c8d;
-            color: white;
-        }
-
-        .artwork-details {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .artwork-title {
-            font-size: 1.2em;
-            font-weight: 600;
-            color: #2c3e50;
-            margin-bottom: 5px;
-            border: none;
-            box-shadow: none;
-            text-align: left;
-            padding: 0;
-        }
-
-        .artwork-year {
-            font-size: 12px;
-            color: #888;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 2px dotted #3498db;
-        }
-
-        .artwork-description {
-            font-size: 13px;
-            color: #555;
-            line-height: 1.7;
-            margin-bottom: 20px;
-        }
-
-        .artwork-specs {
-            background-color: #f9f2e2;
-            border: 2px dashed #3498db;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 20px;
-        }
-        .artwork-specs p {
-            border: none;
-            background: none;
-            padding: 0;
-            margin: 0 0 8px 0;
-            font-size: 12px;
-            color: #666;
-        }
-        .artwork-specs p:last-child {
-            margin-bottom: 0;
-        }
-        .spec-label {
-            font-weight: 600;
-            color: #2c3e50;
-        }
-
-        .artwork-price {
-            font-size: 1.4em;
-            font-weight: 700;
-            color: #2c3e50;
-            margin-bottom: 15px;
-        }
-
-        .enquire-button {
-            display: inline-block;
-            padding: 12px 25px;
-            background-color: #3498db;
-            color: white;
-            text-decoration: none;
-            border-radius: 10px;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 13px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            text-align: center;
-        }
-        .enquire-button:hover {
-            background-color: #2980b9;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4);
-            color: white;
-            text-decoration: none;
-        }
-        .enquire-button.sold {
-            background-color: #bdc3c7;
-            cursor: default;
-            pointer-events: none;
-        }
-
-        /* SECTION DIVIDER */
-        .section-divider {
-            border: none;
-            border-top: 2px dashed #3498db;
-            width: 60%;
-            margin: 40px auto;
-            position: relative;
-        }
-        .section-divider:before,
-        .section-divider:after {
-            content: "•";
-            color: #3498db;
-            position: absolute;
-            font-size: 20px;
-            top: -12px;
-        }
-        .section-divider:before { left: -5px; }
-        .section-divider:after { right: -5px; }
-
-        /* CATEGORY SECTIONS */
-        .category-section {
-            margin: 40px 0;
-        }
-
-        .category-title {
-            background-color: #3498db;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 15px;
-            font-size: 1.1em;
-            margin-bottom: 25px;
-            display: inline-block;
-        }
-
-        /* SERIES INTRO */
-        .series-intro {
-            background-color: #f9f2e2;
-            border: 2px dashed #3498db;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 25px;
-        }
-        .series-intro p {
-            border: none;
-            background: none;
-            padding: 0;
-            margin: 0 0 12px 0;
-            font-size: 13px;
-            line-height: 1.8;
-            color: #555;
-        }
-        .series-intro p:last-child {
-            margin-bottom: 0;
-        }
-        .series-intro .collaborator {
-            font-style: italic;
-            color: #888;
-            font-size: 12px;
-        }
-
-        /* INFO SECTION */
-        .info-section {
-            background-color: #f5e9c9;
-            border: 2px dotted #2980b9;
-            border-radius: 15px;
-            padding: 20px;
-            margin: 30px 0;
-        }
-        .info-section h3 {
-            margin-top: 0;
-            font-size: 1.1em;
-        }
-        .info-section p {
-            border: none;
-            background: none;
-            padding: 0;
-            font-size: 13px;
-            margin-bottom: 10px;
-        }
-        .info-section ul {
-            border: none;
-            background: none;
-            padding-left: 20px;
-            margin: 15px 0;
-        }
-        .info-section li {
-            margin-bottom: 8px;
-            font-size: 13px;
-        }
-
-        /* VIDEO EMBED */
-        .artwork-video {
-            margin-top: 15px;
-            grid-column: 1 / -1;
-            background-color: #f5e9c9;
-            border: 2px dotted #2980b9;
-            border-radius: 10px;
-            padding: 15px;
-        }
-
-        .video-container {
-            position: relative;
-            padding-bottom: 56.25%;
-            height: 0;
             overflow: hidden;
-            border-radius: 8px;
-            background-color: #2c3e50;
         }
 
-        .video-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+        .notebook-clip { display: none; }
+
+        /* TYPOGRAPHY */
+        h1 {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(1.6rem, 4vw, 2.6rem);
+            font-weight: 400;
+            text-align: left;
             border: none;
+            border-bottom: 2px solid var(--ink);
+            background: none;
+            box-shadow: none;
+            padding: 0 0 16px;
+            margin-bottom: 25px;
+            line-height: 1.15;
+            color: var(--ink);
         }
 
-        /* ARTWORK WITH VIDEO */
-        .artwork-listing.has-video {
-            grid-template-columns: 1fr 1.2fr;
-            grid-template-rows: auto auto;
-        }
-        .artwork-listing.has-video .artwork-video {
-            grid-column: 1 / -1;
-            grid-row: 2;
+        h2 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.4em;
+            font-weight: 400;
+            text-align: left;
+            border: none;
+            background: none;
+            box-shadow: none;
+            padding: 0;
+            margin: 0 0 4px;
+            color: var(--ink);
+            line-height: 1.2;
         }
 
-        /* NAVIGATION */
+        h3 {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--mid);
+            border: none;
+            background: none;
+            box-shadow: none;
+            padding: 0;
+            margin: 0 0 12px;
+        }
+
+        p {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.88rem;
+            color: var(--ink);
+            background: none;
+            border: none;
+            padding: 0;
+            margin: 0 0 1em;
+            line-height: 1.8;
+        }
+
+        a { color: var(--ink); text-decoration: underline; transition: opacity 0.2s ease; }
+        a:hover { opacity: 0.6; text-decoration: underline; }
+
+        /* NAV */
         nav {
-            border: 2px dotted #2980b9;
-            border-radius: 20px;
-            background-color: #f9f2e2;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            margin: 20px auto;
-            padding: 15px;
+            border: none;
+            border-top: 1px solid var(--warm-border);
+            border-bottom: 1px solid var(--warm-border);
+            background: none;
+            box-shadow: none;
+            border-radius: 0;
+            margin: 0 0 30px;
+            padding: 10px 0;
         }
+
         nav ul {
             display: flex;
-            justify-content: center;
+            justify-content: flex-start;
             flex-wrap: wrap;
             gap: 5px;
             list-style-type: none;
@@ -415,57 +141,404 @@
             border: none;
             background: none;
         }
+
         nav a {
-            padding: 4px 8px;
-            background-color: #f9f2e2;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            box-shadow: 0 1px 5px rgba(0,0,0,0.2);
+            padding: 4px 10px;
+            background: none;
+            border: 1px solid var(--warm-border);
+            border-radius: 2px;
+            box-shadow: none;
             display: inline-block;
-            font-size: 11px;
-            color: #3498db;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--mid);
             text-decoration: none;
-        }
-        nav a:hover {
-            background-color: #f5e9c9;
-        }
-        nav a.active {
-            background-color: #3498db;
-            color: white;
-            border-color: #3498db;
+            transition: all 0.2s ease;
+            white-space: nowrap;
         }
 
-        footer {
+        nav a:hover { border-color: var(--ink); color: var(--ink); opacity: 1; text-decoration: none; }
+        nav a.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+        /* INTRODUCTION */
+        .introduction {
+            background: none;
+            border: none;
+            border-left: 3px solid var(--warm-border);
+            border-radius: 0;
+            padding: 0 0 0 18px;
+            margin-bottom: 25px;
+        }
+
+        .introduction p {
+            border: none;
+            background: none;
+            padding: 0;
+            margin-bottom: 1em;
+            font-size: 0.88rem;
+        }
+
+        .introduction p:last-child { margin-bottom: 0; }
+
+        /* SECTION DIVIDER */
+        .section-divider {
+            border: none;
+            border-top: 1px solid var(--warm-border);
+            width: 100%;
+            margin: 40px 0;
+            position: relative;
+        }
+
+        .section-divider:before,
+        .section-divider:after { display: none; }
+
+        /* CATEGORY SECTION */
+        .category-section { margin: 35px 0; }
+
+        .category-title {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.68rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: var(--paper);
+            background: var(--ink);
+            padding: 6px 14px;
+            border-radius: 2px;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        /* SERIES INTRO */
+        .series-intro {
+            background: var(--paper-mid);
+            border: none;
+            border-left: 3px solid var(--warm-border);
+            border-radius: 0;
+            padding: 14px 18px;
+            margin-bottom: 25px;
+        }
+
+        .series-intro p {
+            border: none;
+            background: none;
+            padding: 0;
+            margin: 0 0 10px;
+            font-size: 0.85rem;
+            line-height: 1.8;
+            color: var(--ink);
+        }
+
+        .series-intro p:last-child { margin-bottom: 0; }
+
+        .series-intro .collaborator {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.68rem;
+            font-style: normal;
+            color: var(--mid);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        /* ARTWORK LISTING */
+        .artwork-listing {
+            background: white;
+            border: 1px solid var(--warm-border);
+            border-radius: 3px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 22px;
+            align-items: start;
+        }
+
+        .artwork-image-container { position: relative; }
+
+        .artwork-image,
+        .gallery-main {
+            width: 100%;
+            height: auto;
+            border: 1px solid var(--warm-border);
+            border-radius: 3px;
+            padding: 0;
+            background: var(--paper-mid);
+            box-shadow: none;
+            transition: opacity 0.3s ease;
+            cursor: zoom-in;
+            display: block;
+        }
+
+        .artwork-image:hover,
+        .gallery-main:hover { opacity: 0.92; }
+
+        /* GALLERY THUMBNAILS */
+        .gallery-thumbnails {
+            display: flex;
+            gap: 6px;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+
+        .gallery-thumb {
+            width: 52px;
+            height: 52px;
+            object-fit: cover;
+            border: 1px solid var(--warm-border);
+            border-radius: 2px;
+            cursor: pointer;
+            opacity: 0.55;
+            transition: all 0.2s ease;
+        }
+
+        .gallery-thumb:hover { opacity: 0.85; border-color: var(--ink); }
+
+        .gallery-thumb.active {
+            opacity: 1;
+            border-color: var(--ink);
+            border-width: 2px;
+        }
+
+        /* STATUS BADGE */
+        .status-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            padding: 4px 10px;
+            border-radius: 2px;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.6rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            z-index: 5;
+        }
+
+        .status-badge.available {
+            background: var(--green);
+            color: white;
+        }
+
+        .status-badge.sold {
+            background: var(--mid);
+            color: white;
+        }
+
+        /* ARTWORK DETAILS */
+        .artwork-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .artwork-title {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.3em;
+            font-weight: 400;
+            color: var(--ink);
+            margin-bottom: 4px;
+            border: none;
+            box-shadow: none;
+            text-align: left;
+            padding: 0;
+        }
+
+        .artwork-year {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.68rem;
+            color: var(--mid);
+            margin-bottom: 14px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--warm-border);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .artwork-description {
+            font-size: 0.88rem;
+            color: var(--ink);
+            line-height: 1.8;
+            margin-bottom: 18px;
+        }
+
+        .artwork-specs {
+            background: var(--paper-mid);
+            border: none;
+            border-left: 3px solid var(--warm-border);
+            border-radius: 0;
+            padding: 12px 16px;
+            margin-bottom: 18px;
+        }
+
+        .artwork-specs p {
+            border: none;
+            background: none;
+            padding: 0;
+            margin: 0 0 6px;
+            font-size: 0.8rem;
+            color: var(--mid);
+        }
+
+        .artwork-specs p:last-child { margin-bottom: 0; }
+
+        .spec-label {
+            font-family: 'Space Mono', monospace;
+            font-weight: 700;
+            color: var(--ink);
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        .artwork-price {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.4em;
+            font-weight: 400;
+            color: var(--ink);
+            margin-bottom: 14px;
+        }
+
+        /* ENQUIRE BUTTON */
+        .enquire-button {
+            display: inline-block;
+            padding: 10px 22px;
+            background: var(--ink);
+            color: var(--paper);
+            text-decoration: none;
+            border-radius: 3px;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: all 0.2s ease;
             text-align: center;
+            align-self: flex-start;
+        }
+
+        .enquire-button:hover {
+            opacity: 0.8;
+            transform: translateY(-2px);
+            color: var(--paper);
+            text-decoration: none;
+        }
+
+        .enquire-button.sold {
+            background: var(--mid);
+            cursor: default;
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        /* ARTWORK VIDEO */
+        .artwork-video {
+            margin-top: 4px;
+            grid-column: 1 / -1;
+            background: none;
+            border: none;
+            border-top: 1px solid var(--warm-border);
+            border-radius: 0;
+            padding: 16px 0 0;
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 3px;
+            background: var(--ink);
+            border: 1px solid var(--warm-border);
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            border: none;
+        }
+
+        .artwork-listing.has-video {
+            grid-template-columns: 1fr 1.2fr;
+            grid-template-rows: auto auto;
+        }
+
+        .artwork-listing.has-video .artwork-video {
+            grid-column: 1 / -1;
+            grid-row: 2;
+        }
+
+        /* INFO SECTION */
+        .info-section {
+            background: var(--paper-mid);
+            border: none;
+            border-left: 3px solid var(--ink);
+            border-radius: 0;
+            padding: 16px 20px;
+            margin: 25px 0;
+        }
+
+        .info-section h3 { margin-top: 0; margin-bottom: 12px; }
+
+        .info-section p {
+            border: none;
+            background: none;
+            padding: 0;
+            font-size: 0.88rem;
+            margin-bottom: 10px;
+        }
+
+        .info-section ul {
+            border: none;
+            background: none;
+            padding-left: 18px;
+            margin: 12px 0 0;
+            list-style: disc;
+        }
+
+        .info-section li {
+            margin-bottom: 6px;
+            font-size: 0.88rem;
+            line-height: 1.7;
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: left;
             padding-top: 20px;
             margin-top: 30px;
+            border-top: 1px solid var(--warm-border);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
         }
+
         footer p {
             border: none;
             background: none;
-        }
-        footer a {
-            color: #3498db;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.68rem;
+            color: var(--mid);
+            margin: 0;
         }
 
-        /* ==================== */
-        /* LIGHTBOX STYLES */
-        /* ==================== */
+        footer a { color: var(--mid); text-decoration: underline; }
+        footer a:hover { color: var(--ink); opacity: 1; }
+
+        /* LIGHTBOX */
         .lightbox-overlay {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95);
             z-index: 1000;
             justify-content: center;
             align-items: center;
         }
-        .lightbox-overlay.active {
-            display: flex;
-        }
+
+        .lightbox-overlay.active { display: flex; }
 
         .lightbox-content {
             position: relative;
@@ -474,26 +547,21 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            animation: lightboxFadeIn 0.3s ease;
+            animation: lightboxFadeIn 0.25s ease;
         }
 
         @keyframes lightboxFadeIn {
-            from {
-                opacity: 0;
-                transform: scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
+            from { opacity: 0; transform: scale(0.97); }
+            to { opacity: 1; transform: scale(1); }
         }
 
         .lightbox-image {
             max-width: 90vw;
             max-height: 75vh;
             object-fit: contain;
-            border-radius: 10px;
+            border-radius: 3px;
             box-shadow: 0 10px 50px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.1);
         }
 
         .lightbox-close {
@@ -503,187 +571,127 @@
             background: none;
             border: none;
             color: white;
-            font-size: 40px;
+            font-size: 36px;
             cursor: pointer;
             padding: 10px;
             line-height: 1;
-            transition: transform 0.2s ease, color 0.2s ease;
+            transition: opacity 0.2s ease;
             z-index: 1001;
         }
-        .lightbox-close:hover {
-            color: #3498db;
-            transform: scale(1.2);
-        }
+
+        .lightbox-close:hover { opacity: 0.6; }
 
         .lightbox-nav {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            background: rgba(255,255,255,0.15);
-            border: 2px solid rgba(255,255,255,0.4);
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.25);
             color: white;
-            font-size: 24px;
+            font-size: 20px;
             cursor: pointer;
-            padding: 15px 18px;
+            padding: 14px 16px;
             border-radius: 50%;
             transition: all 0.2s ease;
             z-index: 1001;
         }
+
         .lightbox-nav:hover {
-            background: rgba(52, 152, 219, 0.9);
-            border-color: #3498db;
-            transform: translateY(-50%) scale(1.1);
+            background: rgba(255,255,255,0.2);
+            border-color: rgba(255,255,255,0.5);
+            transform: translateY(-50%) scale(1.05);
         }
-        .lightbox-prev {
-            left: -80px;
-        }
-        .lightbox-next {
-            right: -80px;
-        }
+
+        .lightbox-prev { left: -80px; }
+        .lightbox-next { right: -80px; }
 
         .lightbox-caption {
             color: white;
-            margin-top: 15px;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 16px;
-            font-weight: 600;
+            margin-top: 14px;
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.1em;
+            font-style: italic;
             text-align: center;
         }
 
         .lightbox-counter {
-            color: rgba(255,255,255,0.6);
-            font-size: 12px;
-            margin-top: 5px;
+            color: rgba(255,255,255,0.45);
+            font-family: 'Space Mono', monospace;
+            font-size: 0.68rem;
+            margin-top: 4px;
+            letter-spacing: 0.08em;
         }
 
         .lightbox-thumbnails {
             display: flex;
-            gap: 10px;
-            margin-top: 15px;
+            gap: 8px;
+            margin-top: 14px;
             justify-content: center;
             flex-wrap: wrap;
             max-width: 90vw;
         }
 
         .lightbox-thumb {
-            width: 60px;
-            height: 60px;
+            width: 52px;
+            height: 52px;
             object-fit: cover;
-            border: 2px solid rgba(255,255,255,0.3);
-            border-radius: 6px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 2px;
             cursor: pointer;
-            opacity: 0.5;
+            opacity: 0.45;
             transition: all 0.2s ease;
         }
-        .lightbox-thumb:hover {
-            opacity: 0.8;
-            border-color: rgba(255,255,255,0.6);
-        }
+
+        .lightbox-thumb:hover { opacity: 0.75; border-color: rgba(255,255,255,0.5); }
+
         .lightbox-thumb.active {
             opacity: 1;
-            border-color: #3498db;
-            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.5);
+            border-color: white;
+            border-width: 2px;
         }
 
+        /* RESPONSIVE */
         @media (max-width: 768px) {
-        body {
-            font-size: 14px;
-            padding: 10px;
-            background-size: 18px 18px;
-        }
-        
-        .page-wrapper, .page-container {
-            padding: 10px;
-            width: 95%;
-            max-width: 100%;
-            border-radius: 20px;
-        }
-        
-        .page-container {
-            box-shadow: none;
-            border: 2px dashed #3498db;
-        }
-        
-        h1 {
-            font-size: 1.5em;
-            padding: 10px;
-        }
-        
-        .artwork-listing {
-            grid-template-columns: 1fr;
-        }
-        .artwork-listing.has-video {
-            grid-template-columns: 1fr;
-        }
-        .artwork-title {
-            font-size: 1.1em;
-        }
-        .gallery-thumb {
-            width: 50px;
-            height: 50px;
-        }
-        .lightbox-nav {
-            padding: 12px 14px;
-            font-size: 18px;
-        }
-        .lightbox-prev {
-            left: 10px;
-        }
-        .lightbox-next {
-            right: 10px;
-        }
-        .lightbox-close {
-            top: -45px;
-            right: 5px;
-            font-size: 35px;
-        }
-        .lightbox-thumb {
-            width: 50px;
-            height: 50px;
-        }
-        .lightbox-image {
-            max-height: 60vh;
-        }
-        
-        nav {
-            padding: 10px 5px;
-        }
-        
-        nav a {
-            font-size: 12px;
-            padding: 5px 8px;
-        }
-    }
+            body { font-size: 13px; padding: 12px; background-size: 22px 22px; }
 
-    @media (max-width: 480px) {
-        body {
-            font-size: 13px;
-            padding: 5px;
-            background-size: 15px 15px;
+            .page-wrapper, .page-container {
+                padding: 12px;
+                width: 95%;
+                max-width: 100%;
+                border-radius: 3px;
+            }
+
+            h1 { font-size: 1.6rem; }
+
+            .artwork-listing { grid-template-columns: 1fr; }
+            .artwork-listing.has-video { grid-template-columns: 1fr; }
+
+            .artwork-title { font-size: 1.2em; }
+
+            .gallery-thumb { width: 46px; height: 46px; }
+
+            .lightbox-nav { padding: 11px 13px; font-size: 16px; }
+            .lightbox-prev { left: 8px; }
+            .lightbox-next { right: 8px; }
+            .lightbox-close { top: -42px; right: 0; font-size: 30px; }
+            .lightbox-thumb { width: 44px; height: 44px; }
+            .lightbox-image { max-height: 60vh; }
+
+            nav a { font-size: 0.62rem; padding: 4px 8px; }
         }
-        
-        .page-wrapper, .page-container {
-            padding: 8px;
-            border-width: 1px;
+
+        @media (max-width: 480px) {
+            body { font-size: 12px; padding: 8px; background-size: 18px 18px; }
+
+            .page-wrapper, .page-container { padding: 10px; }
+
+            .artwork-listing { padding: 14px; }
+            .introduction { padding: 0 0 0 14px; }
+            .gallery-thumb { width: 40px; height: 40px; }
+
+            .lightbox-thumbnails { display: none; }
+            .lightbox-image { max-height: 55vh; }
         }
-        
-        .artwork-listing {
-            padding: 15px;
-        }
-        .introduction {
-            padding: 15px;
-        }
-        .gallery-thumb {
-            width: 45px;
-            height: 45px;
-        }
-        .lightbox-thumbnails {
-            display: none;
-        }
-        .lightbox-image {
-            max-height: 55vh;
-        }
-    }
     </style>
 </head>
 <body id="top">
@@ -706,7 +714,6 @@
         <div class="notebook-clip clip-left"></div>
         <div class="notebook-clip clip-right"></div>
 
-        <!-- Navigation -->
         <nav>
             <ul>
                 <li><a href="shop.html" class="active">Shop</a></li>
@@ -752,9 +759,7 @@
                 <div class="artwork-details">
                     <h2 class="artwork-title">AI Bias</h2>
                     <p class="artwork-year">2023</p>
-                    <p class="artwork-description">
-                        When it comes to bias in AI, examples all have one thing in common – data. AI learns bias from the data it's trained on, which means researchers have to be really careful about how they gather and treat that data.
-                    </p>
+                    <p class="artwork-description">When it comes to bias in AI, examples all have one thing in common – data. AI learns bias from the data it's trained on, which means researchers have to be really careful about how they gather and treat that data.</p>
                     <div class="artwork-specs">
                         <p><span class="spec-label">Format:</span> A5 Concertina Sketchbook</p>
                         <p><span class="spec-label">Series:</span> Unhindered AI</p>
@@ -785,9 +790,7 @@
                 <div class="artwork-details">
                     <h2 class="artwork-title">AI Image Building</h2>
                     <p class="artwork-year">2023</p>
-                    <p class="artwork-description">
-                        AI perceives texture not form. It gradually develops an image by revealing edges, lines, followed by pixels and then gradually recognisable parts of an image.
-                    </p>
+                    <p class="artwork-description">AI perceives texture not form. It gradually develops an image by revealing edges, lines, followed by pixels and then gradually recognisable parts of an image.</p>
                     <div class="artwork-specs">
                         <p><span class="spec-label">Format:</span> A5 Concertina Sketchbook</p>
                         <p><span class="spec-label">Series:</span> Unhindered AI</p>
@@ -817,9 +820,7 @@
                 <div class="artwork-details">
                     <h2 class="artwork-title">Cluster Hands</h2>
                     <p class="artwork-year">2023</p>
-                    <p class="artwork-description">
-                        AI clustering is the machine learning (ML) process of organising data into subgroups with similar attributes or elements.
-                    </p>
+                    <p class="artwork-description">AI clustering is the machine learning (ML) process of organising data into subgroups with similar attributes or elements.</p>
                     <div class="artwork-specs">
                         <p><span class="spec-label">Format:</span> A5 Concertina Sketchbook</p>
                         <p><span class="spec-label">Series:</span> Unhindered AI</p>
@@ -850,9 +851,7 @@
                 <div class="artwork-details">
                     <h2 class="artwork-title">Visual Training Model</h2>
                     <p class="artwork-year">2023</p>
-                    <p class="artwork-description">
-                        Human and AI Collaboration, using Adobe's new generative AI feature in Photoshop.
-                    </p>
+                    <p class="artwork-description">Human and AI Collaboration, using Adobe's new generative AI feature in Photoshop.</p>
                     <div class="artwork-specs">
                         <p><span class="spec-label">Format:</span> A5 Concertina Sketchbook</p>
                         <p><span class="spec-label">Series:</span> Unhindered AI</p>
@@ -883,9 +882,7 @@
                 <div class="artwork-details">
                     <h2 class="artwork-title">Re-adapted</h2>
                     <p class="artwork-year">2023</p>
-                    <p class="artwork-description">
-                        "Generative AI can mimic, but not replace, human intelligence."
-                    </p>
+                    <p class="artwork-description">"Generative AI can mimic, but not replace, human intelligence."</p>
                     <div class="artwork-specs">
                         <p><span class="spec-label">Format:</span> A5 Concertina Sketchbook</p>
                         <p><span class="spec-label">Series:</span> Unhindered AI</p>
@@ -917,14 +914,12 @@
             </ul>
         </div>
 
-        <!-- COMMISSIONS -->
         <div class="introduction">
             <p><strong>Commissions & Licensing</strong></p>
             <p>I don't generally take commissions, though I'm open to conversations if there's an interesting project involved. Please get in touch.</p>
             <p>Contact: <a href="mailto:heidistokes2001@yahoo.co.uk">heidistokes2001@yahoo.co.uk</a></p>
         </div>
 
-        <!-- LICENSING -->
         <div class="introduction">
             <p><strong>Licensing</strong></p>
             <p>For broadcast or institutional use of animation work, please get in touch to discuss terms.</p>
@@ -940,43 +935,34 @@
 </div>
 
 <script>
-    // Gallery data storage
     const galleries = {};
     let currentGallery = null;
     let currentIndex = 0;
 
-    // DOM Elements
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightbox-img');
     const lightboxCaption = document.getElementById('lightbox-caption');
     const lightboxCounter = document.getElementById('lightbox-counter');
     const lightboxThumbnails = document.getElementById('lightbox-thumbnails');
 
-    // Initialize galleries on page load
     document.addEventListener('DOMContentLoaded', function() {
-        // Build gallery data
         document.querySelectorAll('.artwork-image-container').forEach(container => {
             const galleryId = container.dataset.gallery;
             const title = container.dataset.title;
             const thumbs = container.querySelectorAll('.gallery-thumb');
             const mainImg = container.querySelector('.gallery-main');
-            
+
             galleries[galleryId] = {
                 title: title,
-                images: Array.from(thumbs).map(thumb => ({
-                    src: thumb.src,
-                    alt: thumb.alt
-                })),
+                images: Array.from(thumbs).map(thumb => ({ src: thumb.src, alt: thumb.alt })),
                 mainImgId: mainImg.id,
                 currentIndex: 0
             };
 
-            // Add click handler for main image
             mainImg.addEventListener('click', function() {
                 openLightbox(galleryId, galleries[galleryId].currentIndex);
             });
 
-            // Add click handlers for thumbnails
             thumbs.forEach((thumb, index) => {
                 thumb.addEventListener('click', function() {
                     changeImage(galleryId, index);
@@ -984,17 +970,14 @@
             });
         });
 
-        // Lightbox controls
         document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
         document.getElementById('lightbox-prev').addEventListener('click', () => navigateLightbox(-1));
         document.getElementById('lightbox-next').addEventListener('click', () => navigateLightbox(1));
 
-        // Click outside to close
         lightbox.addEventListener('click', function(e) {
             if (e.target === lightbox) closeLightbox();
         });
 
-        // Keyboard navigation
         document.addEventListener('keydown', function(e) {
             if (!currentGallery) return;
             if (e.key === 'Escape') closeLightbox();
@@ -1003,41 +986,24 @@
         });
     });
 
-    // Change main image in page gallery
     function changeImage(galleryId, index) {
         const gallery = galleries[galleryId];
         const mainImg = document.getElementById(gallery.mainImgId);
         const container = mainImg.closest('.artwork-image-container');
         const thumbs = container.querySelectorAll('.gallery-thumb');
-
-        // Update main image
         mainImg.src = gallery.images[index].src;
-        
-        // Update active thumbnail
-        thumbs.forEach((thumb, i) => {
-            thumb.classList.toggle('active', i === index);
-        });
-
-        // Track current index for this gallery
+        thumbs.forEach((thumb, i) => { thumb.classList.toggle('active', i === index); });
         gallery.currentIndex = index;
     }
 
-    // Open lightbox
     function openLightbox(galleryId, index) {
         currentGallery = galleryId;
         currentIndex = index;
-        
         const gallery = galleries[galleryId];
-        
-        // Set image
         lightboxImg.src = gallery.images[index].src;
         lightboxImg.alt = gallery.images[index].alt;
-        
-        // Set caption and counter
         lightboxCaption.textContent = gallery.title;
         lightboxCounter.textContent = (index + 1) + ' / ' + gallery.images.length;
-        
-        // Build thumbnails
         lightboxThumbnails.innerHTML = '';
         gallery.images.forEach((img, i) => {
             const thumb = document.createElement('img');
@@ -1047,49 +1013,34 @@
             thumb.addEventListener('click', () => goToImage(i));
             lightboxThumbnails.appendChild(thumb);
         });
-        
-        // Show lightbox
         lightbox.classList.add('active');
         document.body.style.overflow = 'hidden';
     }
 
-    // Close lightbox
     function closeLightbox() {
         lightbox.classList.remove('active');
         document.body.style.overflow = '';
         currentGallery = null;
     }
 
-    // Navigate lightbox
     function navigateLightbox(direction) {
         if (!currentGallery) return;
-        
         const gallery = galleries[currentGallery];
         currentIndex += direction;
-        
-        // Loop around
         if (currentIndex < 0) currentIndex = gallery.images.length - 1;
         if (currentIndex >= gallery.images.length) currentIndex = 0;
-        
         goToImage(currentIndex);
     }
 
-    // Go to specific image in lightbox
     function goToImage(index) {
         if (!currentGallery) return;
-        
         currentIndex = index;
         const gallery = galleries[currentGallery];
-        
         lightboxImg.src = gallery.images[index].src;
         lightboxImg.alt = gallery.images[index].alt;
         lightboxCounter.textContent = (index + 1) + ' / ' + gallery.images.length;
-        
-        // Update thumbnail active state
         const thumbs = lightboxThumbnails.querySelectorAll('.lightbox-thumb');
-        thumbs.forEach((thumb, i) => {
-            thumb.classList.toggle('active', i === index);
-        });
+        thumbs.forEach((thumb, i) => { thumb.classList.toggle('active', i === index); });
     }
 </script>
 
