@@ -1101,9 +1101,14 @@
             const thumbs = container.querySelectorAll('.gallery-thumb');
             const mainImg = container.querySelector('.gallery-main');
 
+            // If no thumbnails, use the main image as the single gallery entry
+            const images = thumbs.length > 0
+                ? Array.from(thumbs).map(thumb => ({ src: thumb.src, alt: thumb.alt }))
+                : [{ src: mainImg.src, alt: mainImg.alt }];
+
             galleries[galleryId] = {
                 title: title,
-                images: Array.from(thumbs).map(thumb => ({ src: thumb.src, alt: thumb.alt })),
+                images: images,
                 mainImgId: mainImg.id,
                 currentIndex: 0
             };
